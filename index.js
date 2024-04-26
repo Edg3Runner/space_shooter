@@ -1,9 +1,11 @@
+// Setting up Canvas
 const canvas = document.querySelector("canvas");
-
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-// Player blueprint/class
+console.log(window);
+
+// Player Class
 class Player {
   constructor(x, y, radius, color) {
     this.x = x;
@@ -19,7 +21,7 @@ class Player {
     ctx.fill();
   }
 }
-
+// Projectile Class
 class Projectile {
   constructor(x, y, radius, color, velocity) {
     this.x = x;
@@ -43,33 +45,43 @@ class Projectile {
   }
 }
 
-// Place player in the middle of the screen
+// Position the player in the middle of the screen
 const x = canvas.width / 2;
 const y = canvas.height / 2;
-// Create Player
+
+// Create a player
 const player = new Player(x, y, 30, "blue");
-// Draw player on canvas
+
+// Draw the player on canvas
 player.draw();
 
 // Create projectiles
 const projectiles = [];
 
+// Animate how to bullets should move
 function animate() {
   requestAnimationFrame(animate);
+  //  Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   Draw the player
+  player.draw();
   projectiles.forEach((projectile) => {
     projectile.update();
   });
 }
-
+// Fire projectiles on click
 addEventListener("click", (event) => {
-  //   console.log("FIRE!!!");
-  //   console.log(event);
-  projectiles.push(
-    new Projectile(x, y, 5, "red", {
-      x: 1,
-      y: 1,
-    })
+  //Calculate angle between player and mouse click
+  const angle = Math.atan2(
+    event.clientY - canvas.height / 2,
+    event.clientX - canvas.width / 2
   );
+  // Calculate velocity for bullet
+  const velocity = {
+    x: Math.cos(angle),
+    y: Math.sin(angle),
+  };
+  projectiles.push(new Projectile(x, y, 5, "red", velocity));
 
   animate();
 });
