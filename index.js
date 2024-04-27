@@ -104,10 +104,11 @@ function spawnEnemies() {
     // console.log(enemies);
   }, 1000);
 }
-
+let animationId;
 // Animate how to bullets should move
 function animate() {
-  requestAnimationFrame(animate);
+  // This returns whatever frame you are currently on.
+  animationId = requestAnimationFrame(animate);
   //  Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //   Draw the player
@@ -115,8 +116,24 @@ function animate() {
   projectiles.forEach((projectile) => {
     projectile.update();
   });
+
   enemies.forEach((enemy, enemyIndex) => {
     enemy.update();
+
+    const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+
+    // Game Over
+    if (dist - enemy.radius - player.radius < 1) {
+      // Stops the animation when the game is over
+      cancelAnimationFrame(animationId);
+      // Ensure that the entire canvas is cleared before the game is over
+      setTimeout(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 0);
+      //   console.log("Game Over");
+      //   alert("Game Over");
+    }
+
     projectiles.forEach((projectile, projectileIndex) => {
       // Check for collision -> Currently hitting the center of the enemy instead of the edge
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
