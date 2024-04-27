@@ -109,19 +109,23 @@ let animationId;
 function animate() {
   // This returns whatever frame you are currently on.
   animationId = requestAnimationFrame(animate);
+  // Adding BG color to the canvas and a fade effect with opacity
+  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   //  Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //   Draw the player
   player.draw();
+
   projectiles.forEach((projectile) => {
     projectile.update();
     // Check if the projectile has gone off the screen and remove it.
 
     if (
-      projectile.x < 0 ||
-      projectile.x > canvas.width ||
-      projectile.y < 0 ||
-      projectile.y > canvas.height
+      projectile.x + projectile.radius < 0 ||
+      projectile.x - projectile.radius > canvas.width ||
+      projectile.y + projectile.radius < 0 ||
+      projectile.y - projectile.radius > canvas.height
     ) {
       setTimeout(() => {
         // Remove projectile from array
@@ -140,17 +144,14 @@ function animate() {
       // Stops the animation when the game is over
       cancelAnimationFrame(animationId);
       // Ensure that the entire canvas is cleared before the game is over
-      setTimeout(() => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }, 0);
-      //   console.log("Game Over");
-      //   alert("Game Over");
+      //   setTimeout(() => {
+      //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //   }, 0);
     }
 
     projectiles.forEach((projectile, projectileIndex) => {
       // Check for collision -> Currently hitting the center of the enemy instead of the edge
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
-      // console.log(dist);
       // If the distance is less than the radii, we have a collision
       if (dist - enemy.radius - projectile.radius < 1) {
         // setTimeout is used to remove the enemy and projectile until the next frame is rendered to prevent glitches like flashing enemies.
@@ -165,7 +166,6 @@ function animate() {
 }
 // Fire projectiles on click
 addEventListener("click", (event) => {
-  console.log(projectiles);
   //Calculate angle between player and mouse click
   const angle = Math.atan2(
     event.clientY - canvas.height / 2,
@@ -179,4 +179,4 @@ addEventListener("click", (event) => {
   projectiles.push(new Projectile(x, y, 5, "red", velocity));
 });
 animate();
-// spawnEnemies();
+spawnEnemies();
