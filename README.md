@@ -6,7 +6,7 @@
 - [x] - Detect collision on enemy/ projectile hit
 - [x] - Detect collision on enemy/ player hit
 - [x] - Remove offscreen projectiles
-- [] - Colorize game
+- [x] - Colorize game
 - [] - Shrink enemies on hit
 - [] - Add score
 - [] - Add game over UI

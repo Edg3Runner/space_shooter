@@ -72,7 +72,7 @@ const x = canvas.width / 2;
 const y = canvas.height / 2;
 
 // Create a player
-const player = new Player(x, y, 30, "blue");
+const player = new Player(x, y, 10, "white");
 
 // Draw the player on canvas
 player.draw();
@@ -94,7 +94,7 @@ function spawnEnemies() {
       y = Math.random() < 0.5 ? 0 : canvas.height;
     }
     const radius = Math.random() * (30 - 4) + 4;
-    const color = "green";
+    const color = "hsla(" + Math.random() * 360 + ", 50%, 50%, 1)";
     const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
     const velocity = {
       x: Math.cos(angle),
@@ -173,10 +173,10 @@ addEventListener("click", (event) => {
   );
   // Calculate velocity for bullet
   const velocity = {
-    x: Math.cos(angle),
-    y: Math.sin(angle),
+    x: Math.cos(angle) * 5,
+    y: Math.sin(angle) * 5,
   };
-  projectiles.push(new Projectile(x, y, 5, "red", velocity));
+  projectiles.push(new Projectile(x, y, 5, "white", velocity));
 });
 animate();
 spawnEnemies();
