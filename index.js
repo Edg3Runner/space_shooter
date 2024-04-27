@@ -115,8 +115,22 @@ function animate() {
   projectiles.forEach((projectile) => {
     projectile.update();
   });
-  enemies.forEach((enemy) => {
+  enemies.forEach((enemy, enemyIndex) => {
     enemy.update();
+    projectiles.forEach((projectile, projectileIndex) => {
+      // Check for collision -> Currently hitting the center of the enemy instead of the edge
+      const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
+      // console.log(dist);
+      // If the distance is less than the radii, we have a collision
+      if (dist - enemy.radius - projectile.radius < 1) {
+        // setTimeout is used to remove the enemy and projectile until the next frame is rendered to prevent glitches like flashing enemies.
+        setTimeout(() => {
+          // Remove projectile and enemy from respective array
+          enemies.splice(enemyIndex, 1);
+          projectiles.splice(projectileIndex, 1);
+        }, 0);
+      }
+    });
   });
 }
 // Fire projectiles on click
