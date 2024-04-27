@@ -115,6 +115,19 @@ function animate() {
   player.draw();
   projectiles.forEach((projectile) => {
     projectile.update();
+    // Check if the projectile has gone off the screen and remove it.
+
+    if (
+      projectile.x < 0 ||
+      projectile.x > canvas.width ||
+      projectile.y < 0 ||
+      projectile.y > canvas.height
+    ) {
+      setTimeout(() => {
+        // Remove projectile from array
+        projectiles.splice(projectiles.indexOf(projectile), 1);
+      }, 0);
+    }
   });
 
   enemies.forEach((enemy, enemyIndex) => {
@@ -152,6 +165,7 @@ function animate() {
 }
 // Fire projectiles on click
 addEventListener("click", (event) => {
+  console.log(projectiles);
   //Calculate angle between player and mouse click
   const angle = Math.atan2(
     event.clientY - canvas.height / 2,
@@ -165,4 +179,4 @@ addEventListener("click", (event) => {
   projectiles.push(new Projectile(x, y, 5, "red", velocity));
 });
 animate();
-spawnEnemies();
+// spawnEnemies();
