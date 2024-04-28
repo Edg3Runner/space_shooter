@@ -109,17 +109,23 @@ const x = canvas.width / 2;
 const y = canvas.height / 2;
 
 // Create a player
-const player = new Player(x, y, 10, "white");
-
-// Draw the player on canvas
-player.draw();
-
+let player = new Player(x, y, 10, "white");
 // Create projectiles
-const projectiles = [];
+let projectiles = [];
 // Create enemies
-const enemies = [];
+let enemies = [];
 // Create particles
-const particles = [];
+let particles = [];
+
+// Reset/initialize the game
+function init() {
+  player = new Player(x, y, 10, "white");
+  projectiles = [];
+  enemies = [];
+  particles = [];
+  score = 0;
+  scoreEl.textContent = score;
+}
 
 function spawnEnemies() {
   setInterval(() => {
@@ -152,8 +158,6 @@ function animate() {
   // Adding BG color to the canvas and a fade effect with opacity
   ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  //  Clear canvas
-  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //   Draw the player
   player.draw();
   particles.forEach((particle) => {
@@ -256,6 +260,7 @@ addEventListener("click", (event) => {
 });
 
 startGameBtn.addEventListener("click", () => {
+  init();
   animate();
   spawnEnemies();
   modalEl.style.display = "none";

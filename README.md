@@ -12,4 +12,4 @@
 - [x] - Add score
 - [x] - add start game button
 - [x] - Add game over UI
-- [] - Add restart button
+- [x] - Add restart button
