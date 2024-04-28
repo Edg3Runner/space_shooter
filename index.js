@@ -1,3 +1,6 @@
+// Test gsap has been imported
+console.log(gsap);
+
 // Setting up Canvas
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -154,8 +157,11 @@ function animate() {
       // When projectiles touch the enemy
       if (dist - enemy.radius - projectile.radius < 1) {
         // If radius > 10, subtract 10
-        if (enemy.radius - 10 > 10) {
-          enemy.radius -= 10;
+        if (enemy.radius - 10 > 5) {
+          //   enemy.radius -= 10;
+          gsap.to(enemy, {
+            radius: enemy.radius - 10,
+          });
           setTimeout(() => {
             projectiles.splice(projectileIndex, 1);
           }, 0);
