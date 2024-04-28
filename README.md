@@ -10,6 +10,6 @@
 - [x] - Shrink enemies on hit
 - [x] - Particle explosion effects on enemies killed
 - [x] - Add score
+- [x] - add start game button
 - [] - Add game over UI
 - [] - Add restart button
-- [] - add start game button

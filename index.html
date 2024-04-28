@@ -3,13 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Space Shooter</title>
   </head>
-  <body>
+  <body class="bg-black box-border m-0">
     <div class="fixed text-white text-sm ml-2 mt-1 select-none">
       <span>score:</span><span id="scoreEl">0</span>
+    </div>
+    <div id="modalEl" class="inset-0 fixed flex items-center justify-center">
+      <div class="bg-white max-w-md w-full p-6 text-center">
+        <h1 class="text-4xl font-bold leading-none">0</h1>
+        <p id="finalScoreEl" class="text-sm text-gray-700">Points</p>
+        <button
+          id="startGameBtn"
+          class="bg-blue-500 text-white w-full py-3 rounded-full mt-3 text-sm"
+        >
+          Start Game
+        </button>
+      </div>
     </div>
     <canvas></canvas>
     <script

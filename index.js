@@ -5,6 +5,9 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 const scoreEl = document.querySelector("#scoreEl");
+const startGameBtn = document.querySelector("#startGameBtn");
+const modalEl = document.querySelector("#modalEl");
+const finalScoreEl = document.querySelector("#finalScoreEl");
 
 // Player Class
 class Player {
@@ -141,6 +144,7 @@ function spawnEnemies() {
 }
 let animationId;
 let score = 0;
+
 // Animate how to bullets should move
 function animate() {
   // This returns whatever frame you are currently on.
@@ -248,5 +252,9 @@ addEventListener("click", (event) => {
   };
   projectiles.push(new Projectile(x, y, 5, "white", velocity));
 });
-animate();
-spawnEnemies();
+
+startGameBtn.addEventListener("click", () => {
+  animate();
+  spawnEnemies();
+  modalEl.style.display = "none";
+});
