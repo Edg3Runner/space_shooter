@@ -46,6 +46,34 @@ class Enemy {
     this.y = this.y + this.velocity.y;
   }
 }
+// Particle Class
+class Particle {
+  constructor(x, y, radius, color, velocity) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.velocity = velocity;
+    this.alpha = 1;
+  }
+  // Draw a circle
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  update() {
+    this.draw();
+    this.x = this.x + this.velocity.x;
+    this.y = this.y + this.velocity.y;
+    this.alpha -= 0.01;
+  }
+}
 // Projectile Class
 class Projectile {
   constructor(x, y, radius, color, velocity) {
@@ -84,6 +112,8 @@ player.draw();
 const projectiles = [];
 // Create enemies
 const enemies = [];
+// Create particles
+const particles = [];
 
 function spawnEnemies() {
   setInterval(() => {
@@ -118,7 +148,13 @@ function animate() {
   //   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //   Draw the player
   player.draw();
-
+  particles.forEach((particle) => {
+    if (particle.alpha <= 0) {
+      particles.splice(particles.indexOf(particle), 1);
+    } else {
+      particle.update();
+    }
+  });
   projectiles.forEach((projectile) => {
     projectile.update();
     // Check if the projectile has gone off the screen and remove it.
@@ -156,6 +192,22 @@ function animate() {
       // If the distance is less than the radii, we have a collision
       // When projectiles touch the enemy
       if (dist - enemy.radius - projectile.radius < 1) {
+        // create particles explosion
+        for (let i = 0; i < enemy.radius * 2; i++) {
+          particles.push(
+            new Particle(
+              projectile.x,
+              projectile.y,
+              Math.random() * 2,
+              enemy.color,
+              {
+                x: (Math.random() - 0.5) * (Math.random() * 6),
+                y: (Math.random() - 0.5) * (Math.random() * 6),
+              }
+            )
+          );
+        }
+
         // If radius > 10, subtract 10
         if (enemy.radius - 10 > 5) {
           //   enemy.radius -= 10;
