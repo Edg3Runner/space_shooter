@@ -188,6 +188,8 @@ function animate() {
     if (dist - enemy.radius - player.radius < 1) {
       // Stops the animation when the game is over
       cancelAnimationFrame(animationId);
+      modalEl.style.display = "flex";
+      finalScoreEl.textContent = score;
     }
 
     projectiles.forEach((projectile, projectileIndex) => {
