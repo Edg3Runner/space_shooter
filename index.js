@@ -101,7 +101,6 @@ function spawnEnemies() {
       y: Math.sin(angle),
     };
     enemies.push(new Enemy(x, y, radius, color, velocity));
-    // console.log(enemies);
   }, 1000);
 }
 let animationId;
@@ -120,7 +119,6 @@ function animate() {
   projectiles.forEach((projectile) => {
     projectile.update();
     // Check if the projectile has gone off the screen and remove it.
-
     if (
       projectile.x + projectile.radius < 0 ||
       projectile.x - projectile.radius > canvas.width ||
@@ -153,13 +151,22 @@ function animate() {
       // Check for collision -> Currently hitting the center of the enemy instead of the edge
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
       // If the distance is less than the radii, we have a collision
+      // When projectiles touch the enemy
       if (dist - enemy.radius - projectile.radius < 1) {
-        // setTimeout is used to remove the enemy and projectile until the next frame is rendered to prevent glitches like flashing enemies.
-        setTimeout(() => {
-          // Remove projectile and enemy from respective array
-          enemies.splice(enemyIndex, 1);
-          projectiles.splice(projectileIndex, 1);
-        }, 0);
+        // If radius > 10, subtract 10
+        if (enemy.radius - 10 > 10) {
+          enemy.radius -= 10;
+          setTimeout(() => {
+            projectiles.splice(projectileIndex, 1);
+          }, 0);
+        } else {
+          // setTimeout is used to remove the enemy and projectile until the next frame is rendered to prevent glitches like flashing enemies.
+          setTimeout(() => {
+            // Remove projectile and enemy from respective array
+            enemies.splice(enemyIndex, 1);
+            projectiles.splice(projectileIndex, 1);
+          }, 0);
+        }
       }
     });
   });
