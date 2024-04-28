@@ -1,11 +1,10 @@
-// Test gsap has been imported
-console.log(gsap);
-
 // Setting up Canvas
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
+
+const scoreEl = document.querySelector("#scoreEl");
 
 // Player Class
 class Player {
@@ -141,6 +140,7 @@ function spawnEnemies() {
   }, 1000);
 }
 let animationId;
+let score = 0;
 // Animate how to bullets should move
 function animate() {
   // This returns whatever frame you are currently on.
@@ -184,10 +184,6 @@ function animate() {
     if (dist - enemy.radius - player.radius < 1) {
       // Stops the animation when the game is over
       cancelAnimationFrame(animationId);
-      // Ensure that the entire canvas is cleared before the game is over
-      //   setTimeout(() => {
-      //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-      //   }, 0);
     }
 
     projectiles.forEach((projectile, projectileIndex) => {
@@ -214,7 +210,9 @@ function animate() {
 
         // If radius > 10, subtract 10
         if (enemy.radius - 10 > 5) {
-          //   enemy.radius -= 10;
+          // Increase the score
+          score += 100;
+          scoreEl.textContent = score;
           gsap.to(enemy, {
             radius: enemy.radius - 10,
           });
@@ -222,6 +220,9 @@ function animate() {
             projectiles.splice(projectileIndex, 1);
           }, 0);
         } else {
+          // Increase the score
+          score += 250;
+          scoreEl.textContent = score;
           // setTimeout is used to remove the enemy and projectile until the next frame is rendered to prevent glitches like flashing enemies.
           setTimeout(() => {
             // Remove projectile and enemy from respective array
